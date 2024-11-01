@@ -1,3 +1,4 @@
-<!--Retrieving all attributes of Book-->
+<!--Retrieving all attributes of Book
+"Book.objects.get", "1984"-->
 
-Book.objects.all().values()
+Book.objects.get(title="1984")
