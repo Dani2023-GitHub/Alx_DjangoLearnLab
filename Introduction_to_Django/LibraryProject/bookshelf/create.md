@@ -1,4 +1,5 @@
-<!--creation of book instance -->
+<!--creation of book instance
+Book.objects.create-->
 
 python manage.py shell
 from bookshelf.models import Book
