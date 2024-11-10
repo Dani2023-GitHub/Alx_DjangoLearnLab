@@ -3,11 +3,10 @@ from .models import *
 
 #book query by specific author
 
-def bookQuery(author):
-    books = Book.objects.select_related('author').all()
-    for book in books:
-        if book.author == author:
-            print(f"{book.title}")
+def bookQuery(author_name):
+    author = Author.objects.get(name=author_name)
+    for book in Book.objects.filter(author=author):
+        print(f"{book.title}")
 
 #quary of all book in a library
 def books_in_library(library_name):
@@ -17,8 +16,7 @@ def books_in_library(library_name):
         print(f"{book.title}")
             
 #get list of librarian
-def librarian_list(libary):
-    librarians = Librarian.objects.select_related("library")
-    for librarian in librarians:
-        if librarian.library == libary:
-            print(f"{librarian.name}")
+def librarian_list(library_name):
+    library = Library.objects.get(name=library_name)
+    for librarian in Librarian.objects.filter(library=library):
+        print(f"{librarian.name}")
