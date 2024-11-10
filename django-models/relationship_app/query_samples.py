@@ -10,11 +10,11 @@ def bookQuery(author):
             print(f"{book.title}")
 
 #quary of all book in a library
-def books_in_library(library):
-    librarys = Library.objects.prefetch_related("books").all()
-    if library in librarys:
-        for book in library.books.all():
-            print(f"{book.title}")
+def books_in_library(library_name):
+    lib = Library.objects.get(name = library_name)
+
+    for book in lib:
+        print(f"{book.title}")
             
 #get list of librarian
 def librarian_list(libary):
