@@ -11,9 +11,9 @@ def bookQuery(author):
 
 #quary of all book in a library
 def books_in_library(library_name):
-    lib = Library.objects.get(name = library_name)
+    lib = Library.objects.get(name=library_name)
 
-    for book in lib:
+    for book in lib.books.all():
         print(f"{book.title}")
             
 #get list of librarian
