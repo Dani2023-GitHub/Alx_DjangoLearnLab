@@ -22,7 +22,7 @@ class LibraryDetailView(DetailView):
 class SignUpView(CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy("login")
-    template_name = "registration/register.html"
+    template_name = "relationship_app/register.html"
 
 def register(request):
     if request.method == 'POST':
@@ -33,4 +33,4 @@ def register(request):
             return redirect("home")  # Redirect to home or any page you specify
     else:
         form = UserCreationForm()
-    return render(request, 'registration/register.html', {'form': form})
+    return render(request, 'relationship_app/register.html', {'form': form})
