@@ -12,7 +12,7 @@ class BookAdmin(admin.ModelAdmin):
     search_fields=("title",)
 
 class CustomUserAdmin(UserAdmin):
-    model = CustomUser
+    model = CustomUser()
     fieldsets = UserAdmin.fieldsets + (
         (None, {'fields': ('date_of_birth', 'profile_photo')}),
     )

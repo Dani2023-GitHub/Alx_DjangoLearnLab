@@ -7,7 +7,6 @@ from django.urls import reverse_lazy
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import permission_required, login_required, user_passes_test
-from .models import UserProfile
 from .forms import BookForm
 
 # Create your views here.
@@ -23,8 +22,8 @@ class LibraryDetailView(DetailView):
     context_object_name = 'library'
 
 class SignUpView(CreateView):
-    form_class = UserCreationForm
-    success_url = reverse_lazy("login")
+    form_class = UserCreationForm()
+    success_url = reverse_lazy("/")
     template_name = "relationship_app/register.html"
 
 def register(request):

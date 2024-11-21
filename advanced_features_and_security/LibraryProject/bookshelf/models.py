@@ -9,6 +9,14 @@ class Book(models.Model):
     author = models.CharField(max_length=100)
     publication_year = models.IntegerField()
 
+    class Meta:
+        permissions = [
+            ('can_view', 'can view the book'),
+            ('can_create', 'can create a book'),
+            ('can_edit', 'can edit a book'),
+            ('can_delete', 'can delete a book'),
+        ]
+
     
 class CustomUserManager(BaseUserManager):
     def create_user(self, username, password=None, **extra_fields):
