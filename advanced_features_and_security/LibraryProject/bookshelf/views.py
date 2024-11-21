@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import permission_required, login_required, 
 
 
 # Create your views here.
-def list_books(request):
+def book_list(request):
     books=Book.objects.all()
 
     
