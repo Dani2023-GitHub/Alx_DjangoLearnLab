@@ -2,16 +2,18 @@ from django.shortcuts import render, redirect
 
 from .models import Book
 from django.views.generic.detail import DetailView
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView
 from django.urls import reverse_lazy
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import permission_required, login_required, user_passes_test
+from .forms import BookForm
 
 
 # Create your views here.
-def book_list(request):
-    books=Book.objects.all()
+class BookList(ListView):
+    books = Book.objects.all()
+    
 
     
 
