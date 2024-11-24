@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import permission_required, login_required, user_passes_test
-from .forms import BookForm
+from .forms import ExampleForm, BookForm
 
 
 # Create your views here.
