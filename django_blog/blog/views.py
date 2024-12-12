@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Profile, Post
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 class PostListView(ListView):
     model = Post
@@ -25,7 +26,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().valid_form(form)
-    
+ @login_required  
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     template_name = 'post_form.html'
@@ -38,7 +39,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def test_func(self):
         post = self.get_object()
         return self.request.user == post.author
-
+@login_required
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin):
     model = Post
     template_name = 'Post_confirm_delete.html'
