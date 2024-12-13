@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, User
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 from .models import Post, Comment
+from taggit.forms import TagField, TagWidget
 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(required = True)
@@ -28,4 +29,19 @@ class CommentForm(forms.ModelForm):
         fields = ['content']
         widgets = {
             'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+        }
+
+
+class PostForm(forms.ModelForm):
+    tags = TagField(
+        required=False,
+        widget=TagWidget(attrs={'class': 'form-control', 'placeholder': 'Add tags separated by commas'})
+    )
+
+    class Meta:
+        model = Post
+        fields = ['title', 'content', 'tags']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'content': forms.Textarea(attrs={'class': 'form-control'}),
         }
