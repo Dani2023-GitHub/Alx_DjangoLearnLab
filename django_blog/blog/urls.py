@@ -2,7 +2,7 @@ from django.urls import path
 from .views import (
     ProfileView, CustomLoginView, CustomLogoutView,
     PostListView, PostDetailView, PostCreateView, PostUpdateView, PostDeleteView, register,
-    CommentCreateView, CommentUpdateView, CommentDeleteView, PostSearchView
+    CommentCreateView, CommentUpdateView, CommentDeleteView, PostSearchView, PostByTagListView
 )
 from taggit.models import Tag
 
@@ -20,6 +20,6 @@ urlpatterns = [
     path('comment/<int:pk>/update/', CommentUpdateView.as_view(), name='comment-update'),
     path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment-delete'), 
     path('search/', PostSearchView.as_view(), name='post-search'),
-    path('tags/<tag_name>/', PostListView.as_view(), name='posts-by-tag'),
+    path("tags/<slug:tag_slug>/", PostByTagListView.as_view(), name="posts_by_tag"),
    
 ]

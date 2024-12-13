@@ -9,6 +9,7 @@ from .models import Profile, Post, Comment
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from taggit.models import Tag
 
 class PostListView(ListView):
     model = Post
@@ -16,11 +17,23 @@ class PostListView(ListView):
     context_object_name = 'posts'
     ordering = ['-published_date']
 
+class PostByTagListView(ListView):
+    model = Post
+    template_name = "post_by_tag.html"  
+    context_object_name = "posts"
+    paginate_by = 10  # Optional: Paginate the results if needed
+
     def get_queryset(self):
-        tag_name = self.kwargs.get('tag_name')
-        if tag_name:
-            return Post.objects.filter(tags__name=tag_name)
-        return Post.objects.all()
+        # Get the tag from the URL
+        self.tag = get_object_or_404(Tag, slug=self.kwargs.get("tag_slug"))
+        # Return posts associated with the tag
+        return Post.objects.filter(tags__name__in=[self.tag.name]).distinct()
+
+    def get_context_data(self, **kwargs):
+        # Add additional context like the current tag
+        context = super().get_context_data(**kwargs)
+        context["tag"] = self.tag
+        return context
 
 class PostDetailView(DetailView):
     model = Post
