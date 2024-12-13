@@ -7,6 +7,10 @@
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit" class="btn btn-success">Save</button>
+    <div class="form-group">
+        <label for="tags">Tags:</label>
+        {{ form.tags }}
+    </div>
 </form>
 <a href="{% url 'post-list' %}">Cancel</a>
 {% endblock %}
