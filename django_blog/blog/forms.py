@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UsernameField
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
-from .models import Post
+from .models import Post, Comment
 
 class RegistrationForm(UserCreationForm):
     email = forms.EmailField(required = True)
@@ -21,3 +21,11 @@ class LoginLorm(AuthenticationForm):
 #     class Meta:
 #         model = Post
 #         fields = ['title', 'content', 'published_date', 'author']
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content']
+        widgets = {
+            'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+        }

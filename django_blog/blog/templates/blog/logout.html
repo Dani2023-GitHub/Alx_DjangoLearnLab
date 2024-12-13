@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>You have been successfully logged out!</h2>
+  <p>We hope you enjoyed your time. Feel free to browse around as a guest or log back in to access more features.</p>
+  <a href="{% url 'post-list' %}">Go to Blog Posts</a>
+  <br>
+  <a href="{% url 'login' %}" class="btn btn-primary">Log Back In</a>
+{% endblock %}

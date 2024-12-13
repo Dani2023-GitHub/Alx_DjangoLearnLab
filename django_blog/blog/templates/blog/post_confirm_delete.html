@@ -1,5 +1,14 @@
 {% extends 'base.html' %}
 
+<header>
+    <nav>
+        <ul>
+
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </nav>
+</header>
+
 {% block content %}
 <h1>Are you sure you want to delete this post?</h1>
 <form method="post">
