@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 
 class CustomUserSerializer(serializers.ModelSerializer):
     # Adding a password field for user creation
-    password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password')
+    password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'})
     token = serializers.CharField()  # Token will be generated upon user creation
 
     class Meta:
