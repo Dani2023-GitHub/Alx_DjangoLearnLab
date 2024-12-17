@@ -1,0 +1,1 @@
+A RESTful API for a social media platform built with Django and Django REST Framework (DRF). This project includes user authentication, custom user profiles, and foundational features for a social media platform.
