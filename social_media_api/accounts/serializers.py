@@ -6,7 +6,7 @@ User = get_user_model()
 
 class CustomUserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'})
-    token = serializers.CharField(read_only=True)
+    token = serializers.CharField()
 
     class Meta:
         model = User
@@ -15,7 +15,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         password = validated_data.pop('password', None)
-        user = User.objects.create_user(**validated_data)
+        user = get_user_model().objects.create_user(**validated_data)
         if password:
             user.set_password(password)
             user.save()
