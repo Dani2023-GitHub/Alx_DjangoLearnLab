@@ -5,24 +5,30 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 class CustomUserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'})
-    token = serializers.CharField()
+    token = serializers.SerializerMethodField()
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'bio', 'profile_picture', 'followers', 'password', 'token']
-        read_only_fields = ['followers']
+        fields = ['id', 'username', 'email', 'password', 'bio', 'profile_picture', 'token']
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
 
     def create(self, validated_data):
-        password = validated_data.pop('password', None)
-        user = get_user_model().objects.create_user(**validated_data)
-        if password:
-            user.set_password(password)
-            user.save()
-
-        token = Token.objects.create(user=user)
-        user.token = token.key
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data.get('email'),
+            password=validated_data['password'],
+            bio=validated_data.get('bio', ''),
+        )
+        # Generate token for the user
+        Token.objects.create(user=user)
         return user
+
+    def get_token(self, obj):
+        # Retrieve the token for the user
+        token, _ = Token.objects.get_or_create(user=obj)
+        return token.key
 
 
 class LoginSerializer(serializers.Serializer):
