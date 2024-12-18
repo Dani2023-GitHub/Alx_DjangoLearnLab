@@ -37,6 +37,6 @@ class UserFeedView(APIView):
     def get(self, request):
         user = request.user
         followed_users = user.following.all()
-        feed_posts = Post.objects.filter(author__in=followed_users).order_by('-created_at')
+        feed_posts = Post.objects.filter(author__in=following_users).order_by('-created_at')
         serializer = PostSerializer(feed_posts, many=True)
         return Response(serializer.data)
