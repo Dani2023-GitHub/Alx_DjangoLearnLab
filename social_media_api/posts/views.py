@@ -1,10 +1,12 @@
 from rest_framework import viewsets, permissions
-from .models import Post, Comment
+from .models import Post, Comment, Like
 from .serializers import PostSerializer, CommentSerializer
 from rest_framework.filters import SearchFilter
 from rest_framework.response import Response 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
+from notifications.models import Notification
+from django.contrib.contenttypes.models import ContentType
 
 class IsAuthorOrReadOnly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
@@ -37,6 +39,40 @@ class UserFeedView(APIView):
     def get(self, request):
         user = request.user
         followed_users = user.following.all()
-        feed_posts = Post.objects.filter(author__in=following_users).order_by('-created_at')
+        feed_posts = Post.objects.filter(author__in=followed_users).order_by('-created_at')
         serializer = PostSerializer(feed_posts, many=True)
         return Response(serializer.data)
+
+class LikePostAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, pk):
+        post = Post.objects.get(pk = pk)
+        like, created = Like.objects.get_or_create(user = request.user, post = post)
+
+        if created:
+            Notification.objects.create(
+                recipient = post.author,
+                actor = request.user,
+                verb = 'liked',
+                target_content_type = ContentType.objects.get_for_model(post),
+                target_object_id = post.id
+            )
+            return Response({'message': "Post liked successfully."})
+        
+        else :
+            return Response({'message': 'You have already liked the post.'}, status=400)
+
+class UnlikePostAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, pk):
+        post = Post.objects.get(pk = pk)
+        like = Like.objects.filter(user=request.user, post=post)
+
+        if like.exists():
+            like.delete()
+            return Response({'message': 'Post unliked successfully.'})
+        
+        else :
+            return Response({'message': 'You have not liked this post'}, status=400)
